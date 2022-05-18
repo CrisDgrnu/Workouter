@@ -14,9 +14,9 @@ export class WorkoutService {
   ) {}
 
   async create(workoutDto: WorkoutDto) {
-    return await this.connection.transaction(async (manager) => {
-      await manager.save(workoutDto);
-    });
+    return await this.connection.transaction(
+      async (manager) => await manager.save(workoutDto),
+    );
   }
 
   findAll(): Promise<Workout[]> {

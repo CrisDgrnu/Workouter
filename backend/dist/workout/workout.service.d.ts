@@ -6,7 +6,7 @@ export declare class WorkoutService {
     private workoutRepository;
     private connection;
     constructor(workoutRepository: Repository<Workout>, connection: Connection);
-    create(workoutDto: WorkoutDto): Promise<void>;
+    create(workoutDto: WorkoutDto): Promise<WorkoutDto>;
     findAll(): Promise<Workout[]>;
     findOne(id: number): Promise<Workout>;
     update(id: number, updateWorkoutDto: UpdateWorkoutDto): Promise<UpdateResult>;

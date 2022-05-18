@@ -24,9 +24,7 @@ let WorkoutService = class WorkoutService {
         this.connection = connection;
     }
     async create(workoutDto) {
-        return await this.connection.transaction(async (manager) => {
-            await manager.save(workoutDto);
-        });
+        return await this.connection.transaction(async (manager) => await manager.save(workoutDto));
     }
     findAll() {
         return this.workoutRepository.find();

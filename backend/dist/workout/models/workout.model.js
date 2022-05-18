@@ -38,7 +38,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Workout.prototype, "duration", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false, type: 'float', default: 0.0 }),
     __metadata("design:type", Number)
 ], Workout.prototype, "score", void 0);
 Workout = __decorate([

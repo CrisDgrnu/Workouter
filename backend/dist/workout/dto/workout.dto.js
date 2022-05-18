@@ -15,18 +15,27 @@ class WorkoutDto {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], WorkoutDto.prototype, "name", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], WorkoutDto.prototype, "type", void 0);
 __decorate([
+    (0, class_validator_1.IsDateString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Date)
+], WorkoutDto.prototype, "date", void 0);
+__decorate([
     (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], WorkoutDto.prototype, "duration", void 0);
 __decorate([
     (0, class_validator_1.IsDecimal)(),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], WorkoutDto.prototype, "score", void 0);
 exports.WorkoutDto = WorkoutDto;

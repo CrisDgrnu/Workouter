@@ -22,6 +22,6 @@ export class Workout {
   @Column()
   duration: number;
 
-  @Column()
+  @Column({ nullable: false, type: 'float', default: 0.0 })
   score: number;
 }
