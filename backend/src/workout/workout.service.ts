@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UpdateWorkoutDto, WorkoutDto } from './dto';
-import { Workout } from './interface';
-
+import { Workout } from '@prisma/client';
 @Injectable()
 export class WorkoutService {
   create(workoutDto: WorkoutDto) {
@@ -12,15 +11,22 @@ export class WorkoutService {
     return [];
   }
 
-  findOne(id: string): Workout {
-    return { name: `Workout ${id}` };
+  findOne(id: number): Workout {
+    return {
+      id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      name: 'Cristian',
+      duration: null,
+      score: null,
+    };
   }
 
-  update(id: string, updateWorkoutDto: UpdateWorkoutDto) {
+  update(id: number, updateWorkoutDto: UpdateWorkoutDto) {
     return `This method update a workout based on the id ${id} and put the information ${updateWorkoutDto}`;
   }
 
-  remove(id: string) {
+  remove(id: number) {
     return `This method removes a workout based on the id ${id}`;
   }
 }

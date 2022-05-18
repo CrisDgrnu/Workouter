@@ -16,7 +16,14 @@ let WorkoutService = class WorkoutService {
         return [];
     }
     findOne(id) {
-        return { name: `Workout ${id}` };
+        return {
+            id,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            name: 'Cristian',
+            duration: null,
+            score: null,
+        };
     }
     update(id, updateWorkoutDto) {
         return `This method update a workout based on the id ${id} and put the information ${updateWorkoutDto}`;

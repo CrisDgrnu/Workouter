@@ -25,20 +25,20 @@ export class WorkoutController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: number) {
     return this.workoutService.findOne(id);
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateWorkoutDto: UpdateWorkoutDto,
   ) {
     return this.workoutService.update(id, updateWorkoutDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id') id: number) {
     return this.workoutService.remove(id);
   }
 }
