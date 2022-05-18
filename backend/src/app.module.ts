@@ -1,12 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { WorkoutModule } from './workout/workout.module';
-import { DatabaseModule } from './database/database.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [WorkoutModule, DatabaseModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [WorkoutModule, TypeOrmModule.forRoot({ autoLoadEntities: true })],
 })
 export class AppModule {}

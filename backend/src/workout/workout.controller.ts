@@ -8,6 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { WorkoutDto, UpdateWorkoutDto } from './dto';
+import { Workout } from './models';
 import { WorkoutService } from './workout.service';
 
 @Controller('workout')
@@ -16,7 +17,7 @@ export class WorkoutController {
 
   @Post()
   async create(@Body() workoutDto: WorkoutDto) {
-    return this.workoutService.create(workoutDto);
+    return this.workoutService.create(new Workout(workoutDto));
   }
 
   @Get()

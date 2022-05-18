@@ -9,25 +9,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkoutDto = void 0;
-const class_validator_1 = require("class-validator");
-class WorkoutDto {
-}
+exports.Workout = void 0;
+const typeorm_1 = require("typeorm");
+const dto_1 = require("../dto");
+let Workout = class Workout {
+    constructor(dto) {
+        Object.assign(this, dto);
+    }
+};
 __decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], WorkoutDto.prototype, "name", void 0);
-__decorate([
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], WorkoutDto.prototype, "type", void 0);
-__decorate([
-    (0, class_validator_1.IsInt)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], WorkoutDto.prototype, "duration", void 0);
+], Workout.prototype, "id", void 0);
 __decorate([
-    (0, class_validator_1.IsDecimal)(),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Workout.prototype, "name", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], Workout.prototype, "type", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Date)
+], Workout.prototype, "date", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], WorkoutDto.prototype, "score", void 0);
-exports.WorkoutDto = WorkoutDto;
-//# sourceMappingURL=workout.dto.js.map
+], Workout.prototype, "duration", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", Number)
+], Workout.prototype, "score", void 0);
+Workout = __decorate([
+    (0, typeorm_1.Entity)(),
+    __metadata("design:paramtypes", [dto_1.WorkoutDto])
+], Workout);
+exports.Workout = Workout;
+//# sourceMappingURL=workout.model.js.map

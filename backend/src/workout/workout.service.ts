@@ -1,32 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Connection, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
+
 import { UpdateWorkoutDto, WorkoutDto } from './dto';
-import { Workout } from '@prisma/client';
+import { Workout } from './models';
+
 @Injectable()
 export class WorkoutService {
-  create(workoutDto: WorkoutDto) {
-    return `This methods creates a workouts based on the DTO ${workoutDto}`;
+  constructor(
+    @InjectRepository(Workout) private workoutRepository: Repository<Workout>,
+    private connection: Connection,
+  ) {}
+
+  async create(workoutDto: WorkoutDto) {
+    return await this.connection.transaction(async (manager) => {
+      await manager.save(workoutDto);
+    });
   }
 
-  findAll(): Workout[] {
-    return [];
+  findAll(): Promise<Workout[]> {
+    return this.workoutRepository.find();
   }
 
-  findOne(id: number): Workout {
-    return {
-      id,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      name: 'Cristian',
-      duration: null,
-      score: null,
-    };
+  findOne(id: number): Promise<Workout> {
+    return this.workoutRepository.findOne(id);
   }
 
-  update(id: number, updateWorkoutDto: UpdateWorkoutDto) {
-    return `This method update a workout based on the id ${id} and put the information ${updateWorkoutDto}`;
+  update(
+    id: number,
+    updateWorkoutDto: UpdateWorkoutDto,
+  ): Promise<UpdateResult> {
+    return this.workoutRepository.update(id, updateWorkoutDto);
   }
 
-  remove(id: number) {
-    return `This method removes a workout based on the id ${id}`;
+  async remove(id: number): Promise<void> {
+    await this.workoutRepository.delete(id);
   }
 }

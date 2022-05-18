@@ -15,13 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkoutController = void 0;
 const common_1 = require("@nestjs/common");
 const dto_1 = require("./dto");
+const models_1 = require("./models");
 const workout_service_1 = require("./workout.service");
 let WorkoutController = class WorkoutController {
     constructor(workoutService) {
         this.workoutService = workoutService;
     }
     async create(workoutDto) {
-        return this.workoutService.create(workoutDto);
+        return this.workoutService.create(new models_1.Workout(workoutDto));
     }
     async findAll() {
         return this.workoutService.findAll();

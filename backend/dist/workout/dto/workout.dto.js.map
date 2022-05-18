@@ -1,1 +1,1 @@
-{"version":3,"file":"workout.dto.js","sourceRoot":"","sources":["../../../src/workout/dto/workout.dto.ts"],"names":[],"mappings":";;;AAAA,MAAa,UAAU;CAEtB;AAFD,gCAEC"}
+{"version":3,"file":"workout.dto.js","sourceRoot":"","sources":["../../../src/workout/dto/workout.dto.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,qDAA6D;AAE7D,MAAa,UAAU;CAatB;AAXC;IADC,IAAA,0BAAQ,GAAE;;wCACE;AAGb;IADC,IAAA,0BAAQ,GAAE;;wCACE;AAIb;IADC,IAAA,uBAAK,GAAE;;4CACS;AAGjB;IADC,IAAA,2BAAS,GAAE;;yCACE;AAZhB,gCAaC"}
