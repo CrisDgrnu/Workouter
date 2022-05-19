@@ -7,9 +7,9 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { WorkoutDto, UpdateWorkoutDto } from './dto';
-import { Workout } from './models';
-import { WorkoutService } from './workout.service';
+import { WorkoutDto, UpdateWorkoutDto } from './../dto';
+import { Workout } from './../models';
+import { WorkoutService } from './../workout.service';
 
 @Controller('workout')
 export class WorkoutController {

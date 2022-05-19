@@ -36,7 +36,7 @@ let WorkoutService = class WorkoutService {
         return this.workoutRepository.update(id, updateWorkoutDto);
     }
     async remove(id) {
-        await this.workoutRepository.delete(id);
+        return this.workoutRepository.delete(id);
     }
 };
 WorkoutService = __decorate([

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, UpdateResult } from 'typeorm';
+import { Connection, DeleteResult, UpdateResult } from 'typeorm';
 import { Repository } from 'typeorm';
 
 import { UpdateWorkoutDto, WorkoutDto } from './dto';
@@ -34,7 +34,7 @@ export class WorkoutService {
     return this.workoutRepository.update(id, updateWorkoutDto);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.workoutRepository.delete(id);
+  async remove(id: number): Promise<DeleteResult> {
+    return this.workoutRepository.delete(id);
   }
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { Workout } from './models';
-import { WorkoutController } from './workout.controller';
+import { WorkoutController } from './controllers/workout.controller';
 import { WorkoutService } from './workout.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
