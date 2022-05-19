@@ -1,8 +1,16 @@
 <div class="container">
-  <mat-card class="side-bar">
-    <p>Side Bar</p>
-  </mat-card>
-  <mat-card class="main-content">
-    <router-outlet></router-outlet>
-  </mat-card>
+  <nav>
+    <div class="logo">
+      <span>Workouter</span>
+    </div>
+    <div class="search-bar"></div>
+  </nav>
+  <div class="body-container">
+    <div class="side-bar">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

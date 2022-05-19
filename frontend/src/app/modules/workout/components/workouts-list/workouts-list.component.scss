@@ -1,25 +1,60 @@
+h1 {
+  margin: 20px;
+  font-weight: bold;
+}
+
 .item {
   box-shadow: none;
-  background-color: #009de0;
+  background-color: #fff;
+  margin: 10px 20px;
+  border-radius: 0;
 
-  .item-title {
-    height: 60px;
-    display: flex;
-    align-items: center;
+  .header {
+    padding: 0;
+    height: 100%;
 
-    .fitness-icon {
-      width: 60px;
-      height: 60px;
-      font-size: 48px;
-      color: #fff;
+    .item-title {
+      height: 100%;
       display: flex;
       align-items: center;
-    }
 
-    p {
-      color: #fff;
-      margin: 0;
-      font-weight: bold;
+      .title-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        width: 90%;
+        padding: 20px;
+
+        p {
+          color: #000;
+          margin: 0;
+          font-weight: bold;
+        }
+
+        span {
+          color: #000;
+        }
+      }
+
+      .icon-wrapper {
+        background-color: #0267ff;
+        height: 100%;
+        width: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+          width: 60px;
+          height: 60px;
+          font-size: 48px;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
     }
   }
 }
@@ -34,4 +69,8 @@
 
 ::ng-deep .mat-expansion-indicator::after {
   color: white;
+}
+
+::ng-deep .mat-content {
+  height: 100% !important;
 }

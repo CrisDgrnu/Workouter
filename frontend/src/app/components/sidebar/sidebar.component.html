@@ -1,0 +1,41 @@
+<div class="sidebar">
+  <div class="profile">
+    <div class="avatar" [style.background-color]="avatar.rgbColor">
+      {{ avatar.pseudoName }}
+    </div>
+
+    <div class="info">
+      <span class="greeting">Hi,</span>
+      <span class="name">Cristian</span>
+    </div>
+
+    <button mat-flat-button class="stadistics-button" color="accent">
+      <mat-icon class="stadistics-icon">bolt</mat-icon>
+      <span>Stadistics</span>
+    </button>
+  </div>
+
+  <div class="general">
+    <mat-list>
+      <div mat-subheader class="subheader">General</div>
+      <a href="#" class="item" *ngFor="let option of options">
+        <mat-list-item class="option">
+          <mat-icon mat-list-icon>{{ option.iconRef }}</mat-icon>
+          <div mat-line>{{ option.name }}</div>
+        </mat-list-item>
+      </a>
+    </mat-list>
+  </div>
+
+  <div class="activity">
+    <mat-list>
+      <div mat-subheader class="subheader">Activities</div>
+      <a href="#" class="item" *ngFor="let activity of activities">
+        <mat-list-item class="option">
+          <mat-icon mat-list-icon>{{ activity.iconRef }}</mat-icon>
+          <div mat-line>{{ activity.name }}</div>
+        </mat-list-item>
+      </a>
+    </mat-list>
+  </div>
+</div>

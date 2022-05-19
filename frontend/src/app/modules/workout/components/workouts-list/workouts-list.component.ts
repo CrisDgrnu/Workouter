@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Workout } from '../../interfaces';
+import { WorkoutService } from '../../services/workout.service';
 
 @Component({
   selector: 'app-workouts-list',
@@ -8,7 +10,15 @@ import { Component, OnInit } from '@angular/core';
 export class WorkoutsListComponent implements OnInit {
   panelOpenState = false;
 
-  constructor() {}
+  workouts: Workout[] = [];
 
-  ngOnInit(): void {}
+  constructor(private workoutService: WorkoutService) {}
+
+  ngOnInit(): void {
+    this.workoutService
+      .getWorkouts()
+      .subscribe((workouts) => (this.workouts = workouts));
+  }
+
+  getWorkouts() {}
 }

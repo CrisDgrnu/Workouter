@@ -1,0 +1,83 @@
+.sidebar {
+  .profile {
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .avatar {
+      font-size: 24px;
+      width: 3em;
+      height: 3em;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Readex Pro", sans-serif;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .info {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+
+      .greeting {
+        color: #b2bfc7;
+        font-weight: 500;
+        font-size: 18px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+
+      .name {
+        color: #000;
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .stadistics-button {
+      background-color: #0267ff;
+
+      .stadistics-icon {
+        font-size: 22px;
+      }
+    }
+  }
+
+  .general,
+  .activity {
+    .subheader {
+      color: #000;
+      font-size: 16px;
+    }
+
+    .item {
+      text-decoration: none;
+      transition: 0.1s ease-out;
+      transition-delay: 0s;
+    }
+
+    .item:hover {
+      .option {
+        background-color: #eef8fa;
+        color: #0267ff;
+        font-size: 14px;
+        border: 0;
+        border-left-width: 4px;
+        border-style: solid;
+        border-left-color: #0267ff;
+        width: auto;
+        transition: 0.1s ease-out;
+      }
+    }
+    .option {
+      color: #b2bfc7;
+      font-size: 14px;
+    }
+  }
+}
