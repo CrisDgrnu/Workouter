@@ -1,6 +1,6 @@
 import { WorkoutDto, UpdateWorkoutDto } from './../dto';
 import { Workout } from './../models';
-import { WorkoutService } from './../workout.service';
+import { WorkoutService } from '../services/workout.service';
 export declare class WorkoutController {
     private workoutService;
     constructor(workoutService: WorkoutService);

@@ -16,7 +16,7 @@ exports.WorkoutController = void 0;
 const common_1 = require("@nestjs/common");
 const dto_1 = require("./../dto");
 const models_1 = require("./../models");
-const workout_service_1 = require("./../workout.service");
+const workout_service_1 = require("../services/workout.service");
 let WorkoutController = class WorkoutController {
     constructor(workoutService) {
         this.workoutService = workoutService;

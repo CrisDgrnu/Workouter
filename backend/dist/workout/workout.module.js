@@ -10,7 +10,7 @@ exports.WorkoutModule = void 0;
 const common_1 = require("@nestjs/common");
 const models_1 = require("./models");
 const workout_controller_1 = require("./controllers/workout.controller");
-const workout_service_1 = require("./workout.service");
+const workout_service_1 = require("./services/workout.service");
 const typeorm_1 = require("@nestjs/typeorm");
 let WorkoutModule = class WorkoutModule {
 };

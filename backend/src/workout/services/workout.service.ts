@@ -1,22 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { Repository } from 'typeorm';
 
-import { UpdateWorkoutDto, WorkoutDto } from './dto';
-import { Workout } from './models';
+import { UpdateWorkoutDto, WorkoutDto } from '../dto';
+import { Workout } from '../models';
 
 @Injectable()
 export class WorkoutService {
   constructor(
     @InjectRepository(Workout) private workoutRepository: Repository<Workout>,
-    private connection: Connection,
   ) {}
 
-  async create(workoutDto: WorkoutDto) {
-    return await this.connection.transaction(
-      async (manager) => await manager.save(workoutDto),
-    );
+  create(workoutDto: WorkoutDto): Promise<Workout> {
+    const createdWorkout = this.workoutRepository.create(workoutDto);
+    return this.workoutRepository.save(createdWorkout);
   }
 
   findAll(): Promise<Workout[]> {
