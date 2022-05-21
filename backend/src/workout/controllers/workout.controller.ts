@@ -7,6 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { Paginate, PaginateQuery, Paginated } from 'nestjs-paginate';
+
 import { WorkoutDto, UpdateWorkoutDto } from './../dto';
 import { WorkoutService } from '../services/workout.service';
 import { Workout } from '../models';
@@ -22,8 +24,8 @@ export class WorkoutController {
   }
 
   @Get()
-  async findAll(): Promise<Workout[]> {
-    return this.workoutService.findAll();
+  async findAll(@Paginate() query: PaginateQuery): Promise<Paginated<Workout>> {
+    return this.workoutService.findAll(query);
   }
 
   @Get(':id')

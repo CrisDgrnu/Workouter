@@ -16,18 +16,25 @@ exports.WorkoutService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const typeorm_3 = require("typeorm");
+const nestjs_paginate_1 = require("nestjs-paginate");
 const models_1 = require("../models");
 let WorkoutService = class WorkoutService {
-    constructor(workoutRepository, connection) {
+    constructor(workoutRepository) {
         this.workoutRepository = workoutRepository;
-        this.connection = connection;
     }
-    async create(workoutDto) {
-        return await this.connection.transaction(async (manager) => await manager.save(workoutDto));
+    create(workoutDto) {
+        const createdWorkout = this.workoutRepository.create(workoutDto);
+        return this.workoutRepository.save(createdWorkout);
     }
-    findAll() {
-        return this.workoutRepository.find();
+    findAll(query) {
+        return (0, nestjs_paginate_1.paginate)(query, this.workoutRepository, {
+            sortableColumns: ['id', 'name', 'type', 'date', 'duration', 'score'],
+            searchableColumns: ['id', 'name', 'type', 'date', 'duration', 'score'],
+            defaultSortBy: [['id', 'DESC']],
+            filterableColumns: {
+                score: [nestjs_paginate_1.FilterOperator.GTE, nestjs_paginate_1.FilterOperator.LTE],
+            },
+        });
     }
     findOne(id) {
         return this.workoutRepository.findOne(id);
@@ -42,8 +49,7 @@ let WorkoutService = class WorkoutService {
 WorkoutService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(models_1.Workout)),
-    __metadata("design:paramtypes", [typeorm_3.Repository,
-        typeorm_2.Connection])
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], WorkoutService);
 exports.WorkoutService = WorkoutService;
 //# sourceMappingURL=workout.service.js.map
