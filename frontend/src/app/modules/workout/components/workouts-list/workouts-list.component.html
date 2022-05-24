@@ -1,5 +1,12 @@
 <h1>Last workouts</h1>
-<mat-list>
+<div
+  class="item-container"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="0"
+  [scrollWindow]="false"
+  (scrolled)="onScrollDown()"
+>
   <mat-accordion>
     <mat-expansion-panel
       *ngFor="let workout of workouts"
@@ -27,10 +34,12 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <p>This is the content text that makes sense here.</p>
-      <p>This is the content text that makes sense here.</p>
-      <p>This is the content text that makes sense here.</p>
-      <p>This is the content text that makes sense here.</p>
+      <div class="item-body">
+        <p class="body-title">Exercises</p>
+        <mat-list role="list" class="exercises-list">
+          <app-exercise-overview></app-exercise-overview>
+        </mat-list>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
-</mat-list>
+</div>

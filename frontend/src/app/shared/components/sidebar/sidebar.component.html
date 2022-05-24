@@ -1,8 +1,8 @@
 <div class="sidebar">
   <div class="profile">
-    <div class="avatar" [style.background-color]="avatar.rgbColor">
-      {{ avatar.pseudoName }}
-    </div>
+    <app-auto-char-image
+      [pseudoName]="username.substring(0, 2).toUpperCase()"
+    ></app-auto-char-image>
 
     <div class="info">
       <span class="greeting">Hi,</span>

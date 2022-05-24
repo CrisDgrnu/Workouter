@@ -12,20 +12,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 import { WorkoutModule } from './modules/workout/workout.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, SidebarComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     WorkoutModule,
-    MatCardModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
+    SharedModule,
   ],
+  exports: [],
   providers: [],
   bootstrap: [AppComponent],
 })

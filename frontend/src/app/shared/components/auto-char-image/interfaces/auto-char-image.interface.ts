@@ -1,4 +1,4 @@
-export interface Avatar {
+export interface AutoCharImage {
   pseudoName: string;
   rgbColor: string;
 }

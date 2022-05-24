@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Avatar, Option } from './interfaces';
-import { SidebarService } from './sidebar.service';
+import { Option } from './interfaces';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,18 +20,9 @@ export class SidebarComponent implements OnInit {
     { name: 'Food', iconRef: 'local_fire_department' },
   ];
 
-  avatar: Avatar = {
-    pseudoName: 'WK',
-    rgbColor: 'rgb(2,103,255)',
-  };
+  username: string = 'Cris';
 
-  constructor(private sidebarService: SidebarService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.avatar = {
-      //TODO: Get pseudoname from a service when the system has loggin system
-      pseudoName: 'AN',
-      rgbColor: this.sidebarService.getRgbColor('AN'),
-    };
-  }
+  ngOnInit(): void {}
 }

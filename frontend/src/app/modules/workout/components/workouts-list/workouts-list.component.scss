@@ -1,59 +1,79 @@
 h1 {
-  margin: 20px;
+  padding: 20px;
   font-weight: bold;
+  background-color: hsl(216, 100%, 50%);
+  color: #fff;
+  margin-bottom: 0;
 }
 
-.item {
-  box-shadow: none;
-  background-color: #fff;
-  margin: 10px 20px;
-  border-radius: 0;
+.item-container {
+  height: 90%;
+  width: 100%;
+  overflow: auto;
+  overflow-y: scroll;
 
-  .header {
-    padding: 0;
-    height: 100%;
+  .item {
+    box-shadow: none;
+    background-color: #fff;
+    margin: 10px 20px;
+    border-radius: 0;
 
-    .item-title {
+    .header {
+      padding: 0;
       height: 100%;
-      display: flex;
-      align-items: center;
 
-      .title-info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        width: 90%;
-        padding: 20px;
-
-        p {
-          color: #000;
-          margin: 0;
-          font-weight: bold;
-        }
-
-        span {
-          color: #000;
-        }
-      }
-
-      .icon-wrapper {
-        background-color: #0267ff;
+      .item-title {
         height: 100%;
-        width: 10%;
         display: flex;
         align-items: center;
-        justify-content: center;
 
-        .icon {
-          width: 60px;
-          height: 60px;
-          font-size: 48px;
-          color: #fff;
+        .title-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          width: 90%;
+          padding: 20px;
+
+          p {
+            color: #000;
+            margin: 0;
+            font-weight: bold;
+          }
+
+          span {
+            color: #000;
+          }
+        }
+
+        .icon-wrapper {
+          background-color: #0267ff;
+          height: 100%;
+          width: 10%;
           display: flex;
           align-items: center;
           justify-content: center;
+
+          .icon {
+            width: 60px;
+            height: 60px;
+            font-size: 48px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
         }
+      }
+    }
+
+    .item-body {
+      display: flex;
+      flex-direction: column;
+
+      p {
+        font-weight: 500;
+        font-size: 16px;
       }
     }
   }
@@ -68,7 +88,8 @@ h1 {
 }
 
 ::ng-deep .mat-expansion-indicator::after {
-  color: white;
+  margin: 20px;
+  color: #0267ff;
 }
 
 ::ng-deep .mat-content {

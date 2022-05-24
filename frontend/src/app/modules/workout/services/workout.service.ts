@@ -6,13 +6,19 @@ import { environment } from '../../../../environments/environment';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Page } from 'src/app/shared/interfaces/page.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorkoutService {
   private API_URL: string = environment.API_URL;
+
   private workoutUrl: string = 'workout';
+
+  private limitParam: string = '?limit=';
+
+  private pageParam: string = '?page=';
 
   constructor(private http: HttpClient) {}
 
@@ -22,10 +28,15 @@ export class WorkoutService {
    *
    * @returns an observable with a list of workouts
    */
-  getWorkouts(): Observable<Workout[]> {
-    return this.http
-      .get<Workout[]>(this.API_URL + this.workoutUrl)
-      .pipe(catchError(this.handleError<Workout[]>('getWorkouts', [])));
+  getWorkouts(limit: number, page: number): Observable<Workout[]> {
+    const url = this.API_URL + this.workoutUrl;
+
+    return this.http.get<Page<Workout>>(url, { params: { limit, page } }).pipe(
+      map((res) => {
+        return res.data;
+      }),
+      catchError(this.handleError<Workout[]>('getWorkouts', []))
+    );
   }
 
   /**
