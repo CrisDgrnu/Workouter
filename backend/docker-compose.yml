@@ -1,14 +1,22 @@
 version: '3.8'
 services:
-  dev-db:
+  postgres:
     image: postgres:13
+    restart: always
     ports:
       - 5434:5432
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: workouter
-    networks:
-      - workouterNet
-networks:
-  workouterNet:
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=workouter
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@admin.com'
+      PGADMIN_DEFAULT_PASSWORD: '1234'
+    ports:
+      - '80:80'
+    depends_on:
+      - postgres

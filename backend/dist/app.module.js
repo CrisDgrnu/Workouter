@@ -8,18 +8,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const workout_module_1 = require("./workout/workout.module");
+const workout_module_1 = require("./modules/workout/workout.module");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_module_1 = require("./user/user.module");
+const user_module_1 = require("./modules/user/user.module");
+const typeorm_config_1 = require("./config/typeorm.config");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [
-            workout_module_1.WorkoutModule,
-            typeorm_1.TypeOrmModule.forRoot({ autoLoadEntities: true }),
-            user_module_1.UserModule,
-        ],
+        imports: [typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeOrmConfig), workout_module_1.WorkoutModule, user_module_1.UserModule],
     })
 ], AppModule);
 exports.AppModule = AppModule;

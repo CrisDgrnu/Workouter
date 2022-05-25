@@ -15,8 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkoutController = void 0;
 const common_1 = require("@nestjs/common");
 const nestjs_paginate_1 = require("nestjs-paginate");
-const dto_1 = require("./../dto");
+const dtos_1 = require("../dtos");
 const workout_service_1 = require("../services/workout.service");
+const typeorm_filter_1 = require("../exceptions/typeorm.filter");
 let WorkoutController = class WorkoutController {
     constructor(workoutService) {
         this.workoutService = workoutService;
@@ -39,9 +40,10 @@ let WorkoutController = class WorkoutController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseFilters)(new typeorm_filter_1.TypeOrmFilter()),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dto_1.WorkoutDto]),
+    __metadata("design:paramtypes", [dtos_1.WorkoutDto]),
     __metadata("design:returntype", Promise)
 ], WorkoutController.prototype, "create", null);
 __decorate([
@@ -63,7 +65,7 @@ __decorate([
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, dto_1.UpdateWorkoutDto]),
+    __metadata("design:paramtypes", [Number, dtos_1.UpdateWorkoutDto]),
     __metadata("design:returntype", Promise)
 ], WorkoutController.prototype, "update", null);
 __decorate([

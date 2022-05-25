@@ -23,8 +23,11 @@ let WorkoutService = class WorkoutService {
         this.workoutRepository = workoutRepository;
     }
     create(workoutDto) {
-        const createdWorkout = this.workoutRepository.create(workoutDto);
-        return this.workoutRepository.save(createdWorkout);
+        try {
+            const createdWorkout = this.workoutRepository.create(workoutDto);
+            return this.workoutRepository.save(createdWorkout);
+        }
+        catch (e) { }
     }
     findAll(query) {
         return (0, nestjs_paginate_1.paginate)(query, this.workoutRepository, {
