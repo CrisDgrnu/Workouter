@@ -19,10 +19,8 @@ export class WorkoutService {
   ) {}
 
   create(workoutDto: WorkoutDto): Promise<Workout> {
-    try {
-      const createdWorkout = this.workoutRepository.create(workoutDto);
-      return this.workoutRepository.save(createdWorkout);
-    } catch (e) {}
+    const createdWorkout = this.workoutRepository.create(workoutDto);
+    return this.workoutRepository.save(createdWorkout);
   }
 
   findAll(query: PaginateQuery): Promise<Paginated<Workout>> {
