@@ -12,11 +12,17 @@ const workout_module_1 = require("./modules/workout/workout.module");
 const user_module_1 = require("./modules/user/user.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_config_1 = require("./config/typeorm.config");
+const exercise_module_1 = require("./modules/exercise/exercise.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeOrmConfig), workout_module_1.WorkoutModule, user_module_1.UserModule],
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot(typeorm_config_1.typeOrmConfig),
+            workout_module_1.WorkoutModule,
+            user_module_1.UserModule,
+            exercise_module_1.ExerciseModule,
+        ],
     })
 ], AppModule);
 exports.AppModule = AppModule;

@@ -11,13 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WorkoutController = void 0;
 const common_1 = require("@nestjs/common");
 const nestjs_paginate_1 = require("nestjs-paginate");
-const dtos_1 = require("../dtos");
-const workout_service_1 = require("../services/workout.service");
+const dtos_1 = require("./dtos");
+const workout_service_1 = require("./workout.service");
 let WorkoutController = class WorkoutController {
     constructor(workoutService) {
         this.workoutService = workoutService;
@@ -76,7 +75,7 @@ __decorate([
 ], WorkoutController.prototype, "remove", null);
 WorkoutController = __decorate([
     (0, common_1.Controller)('workout'),
-    __metadata("design:paramtypes", [typeof (_a = typeof workout_service_1.WorkoutService !== "undefined" && workout_service_1.WorkoutService) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [workout_service_1.WorkoutService])
 ], WorkoutController);
 exports.WorkoutController = WorkoutController;
 //# sourceMappingURL=workout.controller.js.map

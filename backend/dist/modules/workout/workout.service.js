@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const nestjs_paginate_1 = require("nestjs-paginate");
-const models_1 = require("../models");
+const models_1 = require("./models");
 let WorkoutService = class WorkoutService {
     constructor(workoutRepository) {
         this.workoutRepository = workoutRepository;

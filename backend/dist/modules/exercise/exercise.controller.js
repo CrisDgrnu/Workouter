@@ -11,72 +11,71 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkoutController = void 0;
+exports.ExerciseController = void 0;
 const common_1 = require("@nestjs/common");
 const nestjs_paginate_1 = require("nestjs-paginate");
-const dtos_1 = require("../dtos");
-const workout_service_1 = require("../services/workout.service");
-let WorkoutController = class WorkoutController {
-    constructor(workoutService) {
-        this.workoutService = workoutService;
+const dtos_1 = require("./dtos");
+const exercise_service_1 = require("./exercise.service");
+let ExerciseController = class ExerciseController {
+    constructor(exerciseService) {
+        this.exerciseService = exerciseService;
     }
-    async create(workoutDto) {
-        return this.workoutService.create(workoutDto);
+    async create(exerciseDto) {
+        return this.exerciseService.create(exerciseDto);
     }
     async findAll(query) {
-        return this.workoutService.findAll(query);
+        return this.exerciseService.findAll(query);
     }
     async findOne(id) {
-        return this.workoutService.findOne(id);
+        return this.exerciseService.findOne(id);
     }
-    async update(id, updateWorkoutDto) {
-        return this.workoutService.update(id, updateWorkoutDto);
+    async update(id, updateExerciseDto) {
+        return this.exerciseService.update(id, updateExerciseDto);
     }
     async remove(id) {
-        return this.workoutService.remove(id);
+        return this.exerciseService.remove(id);
     }
 };
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [dtos_1.WorkoutDto]),
+    __metadata("design:paramtypes", [dtos_1.ExerciseDto]),
     __metadata("design:returntype", Promise)
-], WorkoutController.prototype, "create", null);
+], ExerciseController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, nestjs_paginate_1.Paginate)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], WorkoutController.prototype, "findAll", null);
+], ExerciseController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], WorkoutController.prototype, "findOne", null);
+], ExerciseController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, dtos_1.UpdateWorkoutDto]),
+    __metadata("design:paramtypes", [Number, dtos_1.UpdateExerciseDto]),
     __metadata("design:returntype", Promise)
-], WorkoutController.prototype, "update", null);
+], ExerciseController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)(':id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], WorkoutController.prototype, "remove", null);
-WorkoutController = __decorate([
-    (0, common_1.Controller)('workout'),
-    __metadata("design:paramtypes", [typeof (_a = typeof workout_service_1.WorkoutService !== "undefined" && workout_service_1.WorkoutService) === "function" ? _a : Object])
-], WorkoutController);
-exports.WorkoutController = WorkoutController;
-//# sourceMappingURL=workout.controller.js.map
+], ExerciseController.prototype, "remove", null);
+ExerciseController = __decorate([
+    (0, common_1.Controller)('exercise'),
+    __metadata("design:paramtypes", [exercise_service_1.ExerciseService])
+], ExerciseController);
+exports.ExerciseController = ExerciseController;
+//# sourceMappingURL=exercise.controller.js.map

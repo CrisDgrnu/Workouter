@@ -8,8 +8,8 @@ import {
   paginate,
   Paginated,
 } from 'nestjs-paginate';
-import { UpdateWorkoutDto, WorkoutDto } from '../dtos';
-import { Workout } from '../models';
+import { UpdateWorkoutDto, WorkoutDto } from './dtos';
+import { Workout } from './models';
 
 @Injectable()
 export class WorkoutService {

@@ -4,14 +4,15 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
 import { Paginate, PaginateQuery, Paginated } from 'nestjs-paginate';
 
-import { WorkoutDto, UpdateWorkoutDto } from '../dtos';
-import { WorkoutService } from '../services/workout.service';
-import { Workout } from '../models';
+import { WorkoutDto, UpdateWorkoutDto } from './dtos';
+import { WorkoutService } from './workout.service';
+import { Workout } from './models';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
 @Controller('workout')
@@ -29,20 +30,20 @@ export class WorkoutController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Workout> {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Workout> {
     return this.workoutService.findOne(id);
   }
 
   @Put(':id')
   async update(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateWorkoutDto: UpdateWorkoutDto,
   ): Promise<UpdateResult> {
     return this.workoutService.update(id, updateWorkoutDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<DeleteResult> {
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.workoutService.remove(id);
   }
 }

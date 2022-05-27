@@ -6,20 +6,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkoutModule = void 0;
+exports.ExerciseModule = void 0;
 const common_1 = require("@nestjs/common");
-const models_1 = require("./models");
-const workout_controller_1 = require("./workout.controller");
-const workout_service_1 = require("./workout.service");
 const typeorm_1 = require("@nestjs/typeorm");
-let WorkoutModule = class WorkoutModule {
+const exercise_controller_1 = require("./exercise.controller");
+const exercise_service_1 = require("./exercise.service");
+const models_1 = require("./models");
+let ExerciseModule = class ExerciseModule {
 };
-WorkoutModule = __decorate([
+ExerciseModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([models_1.Workout])],
-        controllers: [workout_controller_1.WorkoutController],
-        providers: [workout_service_1.WorkoutService],
+        imports: [typeorm_1.TypeOrmModule.forFeature([models_1.Exercise])],
+        controllers: [exercise_controller_1.ExerciseController],
+        providers: [exercise_service_1.ExerciseService],
     })
-], WorkoutModule);
-exports.WorkoutModule = WorkoutModule;
-//# sourceMappingURL=workout.module.js.map
+], ExerciseModule);
+exports.ExerciseModule = ExerciseModule;
+//# sourceMappingURL=exercise.module.js.map
