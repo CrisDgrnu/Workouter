@@ -41,7 +41,7 @@ export class WorkoutService {
       throw new NotFoundException({
         statusCode: 404,
         message: [`the workout with id ${id} has not been found`],
-        error: 'Not found',
+        error: 'Not Found',
       });
 
     return workout;

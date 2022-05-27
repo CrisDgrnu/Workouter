@@ -2,18 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 
 import * as pactum from 'pactum';
-import { WorkoutModule } from '../src/modules/workout/workout.module';
 import { AppModule } from '../src/app.module';
-import { Workout } from '../src/modules/workout/models';
 import { Connection, getConnection } from 'typeorm';
+import { ExerciseModule } from '../src/modules/exercise/exercise.module';
+import { Exercise } from 'src/modules/exercise/models';
 
-describe('WorkoutController (e2e)', () => {
+describe('ExerciseController (e2e)', () => {
   let app: INestApplication;
   let database: Connection;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule, WorkoutModule],
+      imports: [AppModule, ExerciseModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
@@ -24,7 +24,6 @@ describe('WorkoutController (e2e)', () => {
     );
     await app.init();
     await app.listen(3333);
-
     pactum.request.setBaseUrl('http://localhost:3333');
   });
 
@@ -34,58 +33,52 @@ describe('WorkoutController (e2e)', () => {
     await database.synchronize();
   });
 
-  const BASE_URL = '/workout';
+  const BASE_URL = '/exercise';
 
-  const workoutDto1 = {
-    name: 'Legs',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
+  const exerciseDto1 = {
+    name: 'Diamond Push Up',
+    muscles: ['Chest', 'Triceps'],
     score: '8.4',
   };
 
-  const workoutDto2 = {
-    name: 'Full Body',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
-    score: '8.0',
+  const exerciseDto2 = {
+    name: 'Squat',
+    muscles: ['Legs'],
+    score: '7.0',
   };
 
-  const workoutDto3 = {
-    name: 'Muscle Up',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
-    score: '9.4',
+  const exerciseDto3 = {
+    name: 'Pull Up',
+    muscles: ['Back', 'Biceps'],
+    score: '9.0',
   };
 
-  describe('/workout (POST)', () => {
-    it('should create a workout', async () => {
+  describe('/exercise (POST)', () => {
+    it('should create an exercise', async () => {
       const id = await pactum
         .spec()
         .post(BASE_URL)
-        .withBody(workoutDto1)
+        .withBody(exerciseDto1)
         .expectStatus(201)
         .returns('id');
 
-      const { name, type, duration } = workoutDto1;
+      const { name, muscles, score } = exerciseDto1;
 
       return await pactum
         .spec()
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
         .expectBodyContains(name)
-        .expectBodyContains(type)
-        .expectBodyContains(duration);
+        .expectBodyContains(muscles)
+        .expectBodyContains(score);
     });
 
-    it('should not create a post because name is invalid', async () => {
-      const invalidDto = { ...workoutDto1, name: 15 };
+    it('should not create a workout because name is invalid', async () => {
+      const invalidDto = { ...exerciseDto1, name: 15 };
       const expectedError = {
-        error: 'Bad Request',
-        message: ['name must be a string'],
         statusCode: 400,
+        message: ['name must be a string'],
+        error: 'Bad Request',
       };
 
       return await pactum
@@ -95,22 +88,36 @@ describe('WorkoutController (e2e)', () => {
         .expectStatus(400)
         .expectBody(expectedError);
     });
+
+    it('should not create an exercise because the name is duplicated', async () => {
+      await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(exerciseDto1)
+        .expectStatus(201);
+
+      return await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(exerciseDto1)
+        .expectStatus(409);
+    });
   });
 
-  describe('/workout (GET)', () => {
+  describe('/exercise (GET)', () => {
     beforeEach(async () => {
-      const workoutDtos = [workoutDto1, workoutDto2, workoutDto3];
+      const exerciseDtos = [exerciseDto1, exerciseDto2, exerciseDto3];
 
-      for (const workoutDto of workoutDtos) {
+      for (const exerciseDto of exerciseDtos) {
         await pactum
           .spec()
           .post(BASE_URL)
-          .withBody(workoutDto)
+          .withBody(exerciseDto)
           .expectStatus(201);
       }
     });
 
-    it('should get 3 workouts (all the workouts)', async () => {
+    it('should get 3 exercises (all the exercises)', async () => {
       const data = (await pactum
         .spec()
         .get(BASE_URL)
@@ -119,9 +126,9 @@ describe('WorkoutController (e2e)', () => {
         .expectStatus(200)
         .returns('data')) as unknown;
 
-      const workouts = data as Workout[];
+      const exercises = data as Exercise[];
 
-      return expect(workouts.length).toBeGreaterThanOrEqual(3);
+      return expect(exercises.length).toBeGreaterThanOrEqual(3);
     });
 
     it('should get a page with data, meta and links', async () => {
@@ -148,36 +155,36 @@ describe('WorkoutController (e2e)', () => {
         .expectStatus(200)
         .returns('data')) as unknown;
 
-      const workouts = data as Workout[];
+      const workouts = data as Exercise[];
 
       return expect(workouts.length).toBe(0);
     });
   });
 
-  describe('/workout/:id (GET)', () => {
-    it('should get a workout based on its id', async () => {
+  describe('/exercise/:id (GET)', () => {
+    it('should get a exercise based on its id', async () => {
       const id = await pactum
         .spec()
         .post(BASE_URL)
-        .withBody(workoutDto1)
+        .withBody(exerciseDto1)
         .returns('id');
 
-      const { name, type, duration } = workoutDto1;
+      const { name, muscles, score } = exerciseDto1;
 
       return await pactum
         .spec()
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
         .expectBodyContains(name)
-        .expectBodyContains(type)
-        .expectBodyContains(duration);
+        .expectBodyContains(muscles)
+        .expectBodyContains(score);
     });
 
     it('should get 404 if the given id is not found', async () => {
       const expectedError = {
-        error: 'Not Found',
-        message: ['the workout with id 99999 has not been found'],
         statusCode: 404,
+        message: ['the exercise with id 99999 has not been found'],
+        error: 'Not Found',
       };
 
       return await pactum
@@ -188,14 +195,14 @@ describe('WorkoutController (e2e)', () => {
     });
   });
 
-  describe('/workout/:id (PUT)', () => {
-    it('should change the name and the type of an existing workout', async () => {
-      const { name, type } = workoutDto2;
+  describe('/exercise/:id (PUT)', () => {
+    it('should change the name and the score of an existing exercise', async () => {
+      const { name, score } = exerciseDto1;
 
       const id = await pactum
         .spec()
         .post(BASE_URL)
-        .withBody(workoutDto2)
+        .withBody(exerciseDto1)
         .expectStatus(201)
         .returns('id');
 
@@ -204,18 +211,18 @@ describe('WorkoutController (e2e)', () => {
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
         .expectBodyContains(name)
-        .expectBodyContains(type);
+        .expectBodyContains(score);
 
-      const updatedWorkoutDto = {
-        ...workoutDto2,
+      const updatedExerciseDto = {
+        ...exerciseDto1,
         name: 'Legs',
-        type: 'Crossfit',
+        score: '9.9',
       };
 
       await pactum
         .spec()
         .put(`${BASE_URL}/${id}`)
-        .withBody(updatedWorkoutDto)
+        .withBody(updatedExerciseDto)
         .expectStatus(200)
         .expectBody({ affected: 1, generatedMaps: [], raw: [] });
 
@@ -223,52 +230,73 @@ describe('WorkoutController (e2e)', () => {
         .spec()
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
-        .expectBodyContains(updatedWorkoutDto.name)
-        .expectBodyContains(updatedWorkoutDto.type);
+        .expectBodyContains(updatedExerciseDto.name)
+        .expectBodyContains(updatedExerciseDto.score);
     });
 
-    it('should not affect any workout with the given id', async () => {
+    it('should not affect any exercise with the given id', async () => {
       await pactum
         .spec()
         .put(`${BASE_URL}/9999`)
-        .withBody(workoutDto1)
+        .withBody(exerciseDto1)
         .expectStatus(200)
         .expectBody({ affected: 0, generatedMaps: [], raw: [] });
     });
 
-    it('should not update the workout because the name is invalid', async () => {
+    it('should not update the exercise because the name is invalid', async () => {
       const id = await pactum
         .spec()
         .post(BASE_URL)
-        .withBody(workoutDto1)
+        .withBody(exerciseDto1)
         .expectStatus(201)
         .returns('id');
 
-      const updatedWorkoutDto = {
-        ...workoutDto1,
+      const updatedExerciseDto = {
+        ...exerciseDto1,
         name: 15,
-        type: 'Crossfit',
+        score: '1.0',
       };
 
       await pactum
         .spec()
         .put(`${BASE_URL}/${id}`)
-        .withBody(updatedWorkoutDto)
+        .withBody(updatedExerciseDto)
         .expectStatus(400)
         .expectBody({
-          error: 'Bad Request',
-          message: ['name must be a string'],
           statusCode: 400,
+          message: ['name must be a string'],
+          error: 'Bad Request',
         });
     });
-  });
 
-  describe('/workout/:id (DELETE)', () => {
-    it('should delete the workout based on the given id', async () => {
+    it('should not update the exercise because the name is invalid', async () => {
+      await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(exerciseDto1)
+        .expectStatus(201);
+
       const id = await pactum
         .spec()
         .post(BASE_URL)
-        .withBody(workoutDto1)
+        .withBody(exerciseDto2)
+        .expectStatus(201)
+        .returns('id');
+
+      return await pactum
+        .spec()
+        .put(`${BASE_URL}/${id}`)
+        .withBody(exerciseDto1)
+        .expectStatus(409);
+    });
+  });
+
+  describe('/exercise/:id (DELETE)', () => {
+    it('should delete the exercise based on the given id', async () => {
+      const id = await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(exerciseDto1)
         .expectStatus(201)
         .returns('id');
 
@@ -279,7 +307,7 @@ describe('WorkoutController (e2e)', () => {
         .expectBody({ affected: 1, raw: [] });
     });
 
-    it('should not delete any workout becasue the given id does not exist', async () => {
+    it('should not delete any exercise becasue the given id does not exist', async () => {
       await pactum
         .spec()
         .delete(`${BASE_URL}/99999`)

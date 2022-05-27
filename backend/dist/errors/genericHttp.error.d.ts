@@ -1,6 +1,6 @@
 export declare class GenericHttpError {
     private statusCode;
-    private messages;
+    private message;
     private error;
-    constructor(statusCode: number, messages: string[], error: string);
+    constructor(statusCode: number, message: string[], error: string);
 }

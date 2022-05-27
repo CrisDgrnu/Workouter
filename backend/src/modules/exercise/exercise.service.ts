@@ -11,6 +11,7 @@ import {
   PaginateQuery,
 } from 'nestjs-paginate';
 import { GenericHttpError } from '../../errors/genericHttp.error';
+
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { ExerciseDto, UpdateExerciseDto } from './dtos';
 import { Exercise } from './models';
@@ -59,11 +60,17 @@ export class ExerciseService {
     return exercise;
   }
 
-  update(
+  async update(
     id: number,
     updateExerciseDto: UpdateExerciseDto,
   ): Promise<UpdateResult> {
-    return this.exerciseRepository.update(id, updateExerciseDto);
+    try {
+      return await this.exerciseRepository.update(id, updateExerciseDto);
+    } catch (error) {
+      throw new ConflictException(
+        new GenericHttpError(409, ['duplicated name for exercise'], 'Conflict'),
+      );
+    }
   }
 
   async remove(id: number): Promise<DeleteResult> {

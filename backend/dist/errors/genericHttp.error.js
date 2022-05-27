@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GenericHttpError = void 0;
 class GenericHttpError {
-    constructor(statusCode, messages, error) {
+    constructor(statusCode, message, error) {
         this.statusCode = statusCode;
-        this.messages = messages;
+        this.message = message;
         this.error = error;
     }
 }
