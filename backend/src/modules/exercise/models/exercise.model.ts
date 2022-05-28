@@ -4,6 +4,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 export class Exercise extends BaseEntity {
   @PrimaryGeneratedColumn({
     comment: 'The exercise unique identifier',
+    type: 'int',
   })
   id: number;
 

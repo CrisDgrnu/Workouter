@@ -12,24 +12,40 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WorkoutService = void 0;
+exports.SetService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
-const typeorm_2 = require("typeorm");
 const nestjs_paginate_1 = require("nestjs-paginate");
+const typeorm_2 = require("typeorm");
 const models_1 = require("./models");
-let WorkoutService = class WorkoutService {
-    constructor(workoutRepository) {
-        this.workoutRepository = workoutRepository;
+let SetService = class SetService {
+    constructor(setRepository) {
+        this.setRepository = setRepository;
     }
-    create(workoutDto) {
-        const createdWorkout = this.workoutRepository.create(workoutDto);
-        return this.workoutRepository.save(createdWorkout);
+    create(setDto) {
+        const createdSet = this.setRepository.create(setDto);
+        return this.setRepository.save(createdSet);
     }
     findAll(query) {
-        return (0, nestjs_paginate_1.paginate)(query, this.workoutRepository, {
-            sortableColumns: ['id', 'name', 'type', 'date', 'duration', 'score'],
-            searchableColumns: ['id', 'name', 'type', 'date', 'duration', 'score'],
+        return (0, nestjs_paginate_1.paginate)(query, this.setRepository, {
+            sortableColumns: [
+                'id',
+                'cycles',
+                'reps',
+                'cycleBreak',
+                'exerciseBreak',
+                'completed',
+                'score',
+            ],
+            searchableColumns: [
+                'id',
+                'cycles',
+                'reps',
+                'cycleBreak',
+                'exerciseBreak',
+                'completed',
+                'score',
+            ],
             defaultSortBy: [['id', 'DESC']],
             filterableColumns: {
                 score: [nestjs_paginate_1.FilterOperator.GTE, nestjs_paginate_1.FilterOperator.LTE],
@@ -37,26 +53,26 @@ let WorkoutService = class WorkoutService {
         });
     }
     async findOne(id) {
-        const workout = await this.workoutRepository.findOne(id);
-        if (!workout)
+        const set = await this.setRepository.findOne(id);
+        if (!set)
             throw new common_1.NotFoundException({
                 statusCode: 404,
-                message: [`the workout with id ${id} has not been found`],
+                message: [`the set with id ${id} has not been found`],
                 error: 'Not Found',
             });
-        return workout;
+        return set;
     }
-    update(id, updateWorkoutDto) {
-        return this.workoutRepository.update(id, updateWorkoutDto);
+    update(id, updateSetDto) {
+        return this.setRepository.update(id, updateSetDto);
     }
     async remove(id) {
-        return this.workoutRepository.delete(id);
+        return this.setRepository.delete(id);
     }
 };
-WorkoutService = __decorate([
+SetService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(models_1.Workout)),
+    __param(0, (0, typeorm_1.InjectRepository)(models_1.Set)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
-], WorkoutService);
-exports.WorkoutService = WorkoutService;
-//# sourceMappingURL=workout.service.js.map
+], SetService);
+exports.SetService = SetService;
+//# sourceMappingURL=set.service.js.map

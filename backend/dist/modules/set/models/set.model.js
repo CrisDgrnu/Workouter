@@ -9,55 +9,69 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Workout = void 0;
+exports.Set = void 0;
 const typeorm_1 = require("typeorm");
-let Workout = class Workout extends typeorm_1.BaseEntity {
+let Set = class Set extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
-        comment: 'The workout unique identifier',
+        comment: 'The set unique identifier',
         type: 'int',
     }),
     __metadata("design:type", Number)
-], Workout.prototype, "id", void 0);
+], Set.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        comment: 'The workout name',
-        type: 'varchar',
-    }),
-    __metadata("design:type", String)
-], Workout.prototype, "name", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        comment: 'The workout type, ie: Calisthenics, Gym, Crossfit',
-        type: 'varchar',
-    }),
-    __metadata("design:type", String)
-], Workout.prototype, "type", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        comment: 'The workout date when it has been done',
-        type: 'date',
-    }),
-    __metadata("design:type", Date)
-], Workout.prototype, "date", void 0);
-__decorate([
-    (0, typeorm_1.Column)({
-        comment: 'The workout duration in minutes',
+        comment: 'The number of cycles of the set',
         type: 'int',
     }),
     __metadata("design:type", Number)
-], Workout.prototype, "duration", void 0);
+], Set.prototype, "cycles", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        comment: 'The workout score that the user gives',
+        comment: 'The number of repetitions of each cycle',
+        type: 'int',
+    }),
+    __metadata("design:type", Number)
+], Set.prototype, "reps", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        comment: 'The exercise name',
+        type: 'varchar',
+    }),
+    __metadata("design:type", String)
+], Set.prototype, "exercise", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        comment: 'The break of the cycle in seconds',
+        type: 'int',
+    }),
+    __metadata("design:type", Number)
+], Set.prototype, "cycleBreak", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        comment: 'The break for each exercise in seconds',
+        type: 'int',
+    }),
+    __metadata("design:type", Number)
+], Set.prototype, "exerciseBreak", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        comment: 'The set has been completed or not',
+        type: 'boolean',
+    }),
+    __metadata("design:type", Boolean)
+], Set.prototype, "completed", void 0);
+__decorate([
+    (0, typeorm_1.Column)({
+        comment: 'The set score that the user gives',
         type: 'float',
         default: 0.0,
     }),
     __metadata("design:type", Number)
-], Workout.prototype, "score", void 0);
-Workout = __decorate([
+], Set.prototype, "score", void 0);
+Set = __decorate([
     (0, typeorm_1.Entity)()
-], Workout);
-exports.Workout = Workout;
-//# sourceMappingURL=workout.model.js.map
+], Set);
+exports.Set = Set;
+//# sourceMappingURL=set.model.js.map

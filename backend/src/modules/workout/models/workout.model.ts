@@ -4,10 +4,14 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 export class Workout extends BaseEntity {
   @PrimaryGeneratedColumn({
     comment: 'The workout unique identifier',
+    type: 'int',
   })
   id: number;
 
-  @Column({ comment: 'The workout name', type: 'varchar' })
+  @Column({
+    comment: 'The workout name',
+    type: 'varchar',
+  })
   name: string;
 
   @Column({
@@ -16,10 +20,16 @@ export class Workout extends BaseEntity {
   })
   type: string;
 
-  @Column({ comment: 'The workout date when it has been done', type: 'date' })
+  @Column({
+    comment: 'The workout date when it has been done',
+    type: 'date',
+  })
   date: Date;
 
-  @Column({ comment: 'The workout duration in minutes', type: 'int' })
+  @Column({
+    comment: 'The workout duration in minutes',
+    type: 'int',
+  })
   duration: number;
 
   @Column({

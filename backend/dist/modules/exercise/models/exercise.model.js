@@ -16,6 +16,7 @@ let Exercise = class Exercise extends typeorm_1.BaseEntity {
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)({
         comment: 'The exercise unique identifier',
+        type: 'int',
     }),
     __metadata("design:type", Number)
 ], Exercise.prototype, "id", void 0);

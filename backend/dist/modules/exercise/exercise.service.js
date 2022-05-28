@@ -48,8 +48,13 @@ let ExerciseService = class ExerciseService {
             throw new common_1.NotFoundException(new genericHttp_error_1.GenericHttpError(404, [`the exercise with id ${id} has not been found`], 'Not Found'));
         return exercise;
     }
-    update(id, updateExerciseDto) {
-        return this.exerciseRepository.update(id, updateExerciseDto);
+    async update(id, updateExerciseDto) {
+        try {
+            return await this.exerciseRepository.update(id, updateExerciseDto);
+        }
+        catch (error) {
+            throw new common_1.ConflictException(new genericHttp_error_1.GenericHttpError(409, ['duplicated name for exercise'], 'Conflict'));
+        }
     }
     async remove(id) {
         return this.exerciseRepository.delete(id);
