@@ -5,7 +5,7 @@ import * as pactum from 'pactum';
 import { AppModule } from '../src/app.module';
 import { Connection, getConnection } from 'typeorm';
 import { ExerciseModule } from '../src/modules/exercise/exercise.module';
-import { Exercise } from 'src/modules/exercise/models';
+import { Exercise } from '../src/modules/exercise/models';
 
 describe('ExerciseController (e2e)', () => {
   let app: INestApplication;

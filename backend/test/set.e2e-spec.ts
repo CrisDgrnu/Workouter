@@ -37,7 +37,11 @@ describe('SetController (e2e)', () => {
   const setDto1 = {
     cycles: 4,
     reps: 12,
-    exercise: 'Push Up',
+    exerciseDto: {
+      name: 'Push up',
+      muscles: ['Chest', 'Triceps'],
+      score: '7',
+    },
     cycleBreak: 120,
     exerciseBreak: 90,
     completed: true,
@@ -47,7 +51,11 @@ describe('SetController (e2e)', () => {
   const setDto2 = {
     cycles: 4,
     reps: 5,
-    exercise: 'Pull Up',
+    exerciseDto: {
+      name: 'Pull up',
+      muscles: ['Back', 'Triceps', 'Biceps'],
+      score: '7',
+    },
     cycleBreak: 120,
     exerciseBreak: 90,
     completed: true,
@@ -57,7 +65,11 @@ describe('SetController (e2e)', () => {
   const setDto3 = {
     cycles: 4,
     reps: 12,
-    exercise: 'Squat',
+    exerciseDto: {
+      name: 'Squat up',
+      muscles: ['Legs'],
+      score: '7',
+    },
     cycleBreak: 120,
     exerciseBreak: 90,
     completed: true,
@@ -65,7 +77,7 @@ describe('SetController (e2e)', () => {
   };
 
   describe('/set (POST)', () => {
-    it('should create an set', async () => {
+    it('should create a set', async () => {
       const id = await pactum
         .spec()
         .post(BASE_URL)
@@ -98,6 +110,24 @@ describe('SetController (e2e)', () => {
         .withBody(invalidDto)
         .expectStatus(400)
         .expectBody(expectedError);
+    });
+
+    it('should not create a set because exercise has invalid properties', async () => {
+      const invalidDto = {
+        ...setDto1,
+        exerciseDto: { name: 15, muscles: [], score: '7' },
+      };
+
+      return await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(invalidDto)
+        .expectStatus(400)
+        .expectBody({
+          statusCode: 400,
+          message: ['exerciseDto.name must be a string'],
+          error: 'Bad Request',
+        });
     });
   });
 
