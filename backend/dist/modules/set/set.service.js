@@ -79,8 +79,18 @@ let SetService = class SetService {
         return this.setRepository.delete(id);
     }
     async getExercise(exerciseDto, exerciseId) {
-        if (exerciseId)
-            return await this.exerciseRepository.findOne({ id: exerciseId });
+        if (exerciseId) {
+            const exercise = await this.exerciseRepository.findOne({
+                id: exerciseId,
+            });
+            if (!exercise)
+                throw new common_1.NotFoundException({
+                    statusCode: 404,
+                    message: [`the exercise with id ${exerciseId} has not been found`],
+                    error: 'Not Found',
+                });
+            return exercise;
+        }
         let exercise = await this.exerciseRepository.findOne({
             name: exerciseDto.name,
         });

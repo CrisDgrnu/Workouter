@@ -96,8 +96,20 @@ export class SetService {
     exerciseDto: ExerciseDto | UpdateExerciseDto,
     exerciseId?: number,
   ) {
-    if (exerciseId)
-      return await this.exerciseRepository.findOne({ id: exerciseId });
+    if (exerciseId) {
+      const exercise = await this.exerciseRepository.findOne({
+        id: exerciseId,
+      });
+
+      if (!exercise)
+        throw new NotFoundException({
+          statusCode: 404,
+          message: [`the exercise with id ${exerciseId} has not been found`],
+          error: 'Not Found',
+        });
+
+      return exercise;
+    }
 
     let exercise = await this.exerciseRepository.findOne({
       name: exerciseDto.name,

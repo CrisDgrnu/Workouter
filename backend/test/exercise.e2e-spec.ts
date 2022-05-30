@@ -7,6 +7,7 @@ import { Connection, getConnection } from 'typeorm';
 import { ExerciseModule } from '../src/modules/exercise/exercise.module';
 import { Exercise } from '../src/modules/exercise/models';
 import { exerciseDto1, exerciseDto2, exerciseDto3 } from './data/exercise.data';
+import { setDto1 } from './data/set.data';
 
 describe('ExerciseController (e2e)', () => {
   let app: INestApplication;
@@ -209,7 +210,7 @@ describe('ExerciseController (e2e)', () => {
         .expectStatus(200)
         .expectBody({ affected: 1, generatedMaps: [], raw: [] });
 
-      await pactum
+      return await pactum
         .spec()
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
@@ -218,7 +219,7 @@ describe('ExerciseController (e2e)', () => {
     });
 
     it('should not affect any exercise with the given id', async () => {
-      await pactum
+      return await pactum
         .spec()
         .put(`${BASE_URL}/9999`)
         .withBody(exerciseDto1)
@@ -240,7 +241,7 @@ describe('ExerciseController (e2e)', () => {
         score: '1.0',
       };
 
-      await pactum
+      return await pactum
         .spec()
         .put(`${BASE_URL}/${id}`)
         .withBody(updatedExerciseDto)
@@ -283,7 +284,7 @@ describe('ExerciseController (e2e)', () => {
         .expectStatus(201)
         .returns('id');
 
-      await pactum
+      return await pactum
         .spec()
         .delete(`${BASE_URL}/${id}`)
         .expectStatus(200)
@@ -291,14 +292,29 @@ describe('ExerciseController (e2e)', () => {
     });
 
     it('should not delete any exercise becasue the given id does not exist', async () => {
-      await pactum
+      return await pactum
         .spec()
         .delete(`${BASE_URL}/99999`)
         .expectStatus(200)
         .expectBody({ affected: 0, raw: [] });
     });
 
-    // it('should not delete the exercise because is implied in a set', async () => {});
+    it('should not delete the exercise because is implied in a set', async () => {
+      const exerciseId = await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(exerciseDto1)
+        .expectStatus(201)
+        .returns('id');
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { exerciseDto, ...rest } = setDto1;
+      const setDto = { ...rest, exerciseId };
+
+      await pactum.spec().post('/set').withBody(setDto).expectStatus(201);
+
+      await pactum.spec().delete(`${BASE_URL}/${exerciseId}`).expectStatus(400);
+    });
   });
 
   afterAll(async () => {
