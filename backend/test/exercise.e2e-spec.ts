@@ -6,6 +6,7 @@ import { AppModule } from '../src/app.module';
 import { Connection, getConnection } from 'typeorm';
 import { ExerciseModule } from '../src/modules/exercise/exercise.module';
 import { Exercise } from '../src/modules/exercise/models';
+import { exerciseDto1, exerciseDto2, exerciseDto3 } from './data/exercise.data';
 
 describe('ExerciseController (e2e)', () => {
   let app: INestApplication;
@@ -34,24 +35,6 @@ describe('ExerciseController (e2e)', () => {
   });
 
   const BASE_URL = '/exercise';
-
-  const exerciseDto1 = {
-    name: 'Diamond Push Up',
-    muscles: ['Chest', 'Triceps'],
-    score: '8.4',
-  };
-
-  const exerciseDto2 = {
-    name: 'Squat',
-    muscles: ['Legs'],
-    score: '7.0',
-  };
-
-  const exerciseDto3 = {
-    name: 'Pull Up',
-    muscles: ['Back', 'Biceps'],
-    score: '9.0',
-  };
 
   describe('/exercise (POST)', () => {
     it('should create an exercise', async () => {

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Set = void 0;
 const typeorm_1 = require("typeorm");
+const exercise_model_1 = require("../../exercise/models/exercise.model");
 let Set = class Set extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -35,11 +36,9 @@ __decorate([
     __metadata("design:type", Number)
 ], Set.prototype, "reps", void 0);
 __decorate([
-    (0, typeorm_1.Column)({
-        comment: 'The exercise name',
-        type: 'varchar',
-    }),
-    __metadata("design:type", String)
+    (0, typeorm_1.ManyToOne)(() => exercise_model_1.Exercise, { cascade: true, eager: true }),
+    (0, typeorm_1.JoinColumn)({ referencedColumnName: 'name' }),
+    __metadata("design:type", exercise_model_1.Exercise)
 ], Set.prototype, "exercise", void 0);
 __decorate([
     (0, typeorm_1.Column)({

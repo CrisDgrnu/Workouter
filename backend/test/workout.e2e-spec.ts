@@ -6,6 +6,7 @@ import { WorkoutModule } from '../src/modules/workout/workout.module';
 import { AppModule } from '../src/app.module';
 import { Workout } from '../src/modules/workout/models';
 import { Connection, getConnection } from 'typeorm';
+import { workoutDto1, workoutDto2, workoutDto3 } from './data/workout.data';
 
 describe('WorkoutController (e2e)', () => {
   let app: INestApplication;
@@ -35,30 +36,6 @@ describe('WorkoutController (e2e)', () => {
   });
 
   const BASE_URL = '/workout';
-
-  const workoutDto1 = {
-    name: 'Legs',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
-    score: '8.4',
-  };
-
-  const workoutDto2 = {
-    name: 'Full Body',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
-    score: '8.0',
-  };
-
-  const workoutDto3 = {
-    name: 'Muscle Up',
-    type: 'Calisthenics',
-    date: '2022-04-04T00:00:00.000Z',
-    duration: 56,
-    score: '9.4',
-  };
 
   describe('/workout (POST)', () => {
     it('should create a workout', async () => {

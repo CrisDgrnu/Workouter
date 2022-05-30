@@ -17,17 +17,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const nestjs_paginate_1 = require("nestjs-paginate");
 const typeorm_2 = require("typeorm");
-const models_1 = require("./models");
+const models_1 = require("../exercise/models");
+const models_2 = require("./models");
 let SetService = class SetService {
-    constructor(setRepository) {
+    constructor(setRepository, exerciseRepository) {
         this.setRepository = setRepository;
-    }
-    create(setDto) {
-        const createdSet = this.setRepository.create(setDto);
-        return this.setRepository.save(createdSet);
-    }
-    findAll(query) {
-        return (0, nestjs_paginate_1.paginate)(query, this.setRepository, {
+        this.exerciseRepository = exerciseRepository;
+        this.pageConfig = {
+            relations: ['exercise'],
             sortableColumns: [
                 'id',
                 'cycles',
@@ -50,10 +47,20 @@ let SetService = class SetService {
             filterableColumns: {
                 score: [nestjs_paginate_1.FilterOperator.GTE, nestjs_paginate_1.FilterOperator.LTE],
             },
-        });
+        };
+    }
+    async create(setDto) {
+        const exercise = await this.getExercise(setDto.exerciseDto);
+        const set = Object.assign({ exercise }, this.setRepository.create(setDto));
+        return this.setRepository.save(set);
+    }
+    findAll(query) {
+        return (0, nestjs_paginate_1.paginate)(query, this.setRepository, this.pageConfig);
     }
     async findOne(id) {
-        const set = await this.setRepository.findOne(id);
+        const set = await this.setRepository.findOne(id, {
+            relations: ['exercise'],
+        });
         if (!set)
             throw new common_1.NotFoundException({
                 statusCode: 404,
@@ -62,17 +69,31 @@ let SetService = class SetService {
             });
         return set;
     }
-    update(id, updateSetDto) {
-        return this.setRepository.update(id, updateSetDto);
+    async update(id, updateSetDto) {
+        const exercise = await this.getExercise(updateSetDto.exerciseDto);
+        const set = Object.assign({ exercise }, this.setRepository.create(updateSetDto));
+        return this.setRepository.update(id, set);
     }
     async remove(id) {
         return this.setRepository.delete(id);
     }
+    async getExercise(exerciseDto) {
+        let exercise = await this.exerciseRepository.findOne({
+            name: exerciseDto.name,
+        });
+        if (!exercise) {
+            exercise = await this.exerciseRepository.create(exerciseDto);
+            return await this.exerciseRepository.save(exercise);
+        }
+        return exercise;
+    }
 };
 SetService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, typeorm_1.InjectRepository)(models_1.Set)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, (0, typeorm_1.InjectRepository)(models_2.Set)),
+    __param(1, (0, typeorm_1.InjectRepository)(models_1.Exercise)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], SetService);
 exports.SetService = SetService;
 //# sourceMappingURL=set.service.js.map

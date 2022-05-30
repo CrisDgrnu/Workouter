@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AutoCharImage } from 'src/app/shared/components/auto-char-image/interfaces';
 
 @Component({
@@ -7,7 +7,8 @@ import { AutoCharImage } from 'src/app/shared/components/auto-char-image/interfa
   styleUrls: ['./exercise-overview.component.scss'],
 })
 export class ExerciseOverviewComponent implements OnInit {
-  exerciseName: string = 'Push-Up';
+  @Input() exerciseName: string = 'Exercise';
+
   constructor() {}
 
   ngOnInit(): void {}

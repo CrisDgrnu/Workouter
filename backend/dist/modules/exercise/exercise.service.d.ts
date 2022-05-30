@@ -1,9 +1,10 @@
-import { Paginated, PaginateQuery } from 'nestjs-paginate';
+import { PaginateConfig, Paginated, PaginateQuery } from 'nestjs-paginate';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { ExerciseDto, UpdateExerciseDto } from './dtos';
 import { Exercise } from './models';
 export declare class ExerciseService {
     private readonly exerciseRepository;
+    pageConfig: PaginateConfig<Exercise>;
     constructor(exerciseRepository: Repository<Exercise>);
     create(exerciseDto: ExerciseDto): Promise<Exercise>;
     findAll(query: PaginateQuery): Promise<Paginated<Exercise>>;

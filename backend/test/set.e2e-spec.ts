@@ -5,6 +5,8 @@ import { Set } from '../src/modules/set/models';
 import { SetModule } from '../src/modules/set/set.module';
 import { Connection, getConnection } from 'typeorm';
 import { AppModule } from '../src/app.module';
+import { Exercise } from 'src/modules/exercise/models';
+import { setDto1, setDto2, setDto3 } from './data/set.data';
 
 describe('SetController (e2e)', () => {
   let app: INestApplication;
@@ -33,48 +35,6 @@ describe('SetController (e2e)', () => {
   });
 
   const BASE_URL = '/set';
-
-  const setDto1 = {
-    cycles: 4,
-    reps: 12,
-    exerciseDto: {
-      name: 'Push up',
-      muscles: ['Chest', 'Triceps'],
-      score: '7',
-    },
-    cycleBreak: 120,
-    exerciseBreak: 90,
-    completed: true,
-    score: '8.6',
-  };
-
-  const setDto2 = {
-    cycles: 4,
-    reps: 5,
-    exerciseDto: {
-      name: 'Pull up',
-      muscles: ['Back', 'Triceps', 'Biceps'],
-      score: '7',
-    },
-    cycleBreak: 120,
-    exerciseBreak: 90,
-    completed: true,
-    score: '8.6',
-  };
-
-  const setDto3 = {
-    cycles: 4,
-    reps: 12,
-    exerciseDto: {
-      name: 'Squat up',
-      muscles: ['Legs'],
-      score: '7',
-    },
-    cycleBreak: 120,
-    exerciseBreak: 90,
-    completed: true,
-    score: '8.6',
-  };
 
   describe('/set (POST)', () => {
     it('should create a set', async () => {
@@ -128,6 +88,19 @@ describe('SetController (e2e)', () => {
           message: ['exerciseDto.name must be a string'],
           error: 'Bad Request',
         });
+    });
+
+    it('should not create a set because exercise is empty', async () => {
+      const invalidDto = {
+        ...setDto1,
+        exerciseDto: {},
+      };
+
+      return await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(invalidDto)
+        .expectStatus(400);
     });
   });
 
@@ -186,6 +159,25 @@ describe('SetController (e2e)', () => {
 
       return expect(sets.length).toBe(0);
     });
+
+    it('should get sets with an exercise inside', async () => {
+      const data = (await pactum
+        .spec()
+        .get(BASE_URL)
+        .withQueryParams('limit', 10)
+        .withQueryParams('page', 0)
+        .expectStatus(200)
+        .returns('data')) as unknown;
+
+      const sets = data as Set[];
+      const { exercise } = sets[0];
+
+      return expect(exercise).toMatchObject({
+        muscles: ['Legs'],
+        name: 'Squat up',
+        score: 7,
+      });
+    });
   });
 
   describe('/set/:id (GET)', () => {
@@ -220,10 +212,34 @@ describe('SetController (e2e)', () => {
         .expectStatus(404)
         .expectBody(expectedError);
     });
+
+    it('should get a set with an exercise inside', async () => {
+      const id = await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(setDto1)
+        .returns('id');
+
+      const setExercise = (await pactum
+        .spec()
+        .get(`${BASE_URL}/${id}`)
+        .expectStatus(200)
+        .returns('exercise')) as unknown;
+
+      const exercise = setExercise as Exercise;
+
+      expect(exercise).toBeDefined();
+
+      return expect(exercise).toMatchObject({
+        muscles: ['Chest', 'Triceps'],
+        name: 'Push up',
+        score: 7,
+      });
+    });
   });
 
   describe('/set/:id (PUT)', () => {
-    it('should change the name and the score of an existing exercise', async () => {
+    it('should change the cycles and the score of an existing set', async () => {
       const { cycles, score } = setDto1;
 
       const id = await pactum
@@ -240,7 +256,7 @@ describe('SetController (e2e)', () => {
         .expectBodyContains(cycles)
         .expectBodyContains(score);
 
-      const updatedExerciseDto = {
+      const updatedSetDto = {
         ...setDto1,
         cycles: 8,
         score: '9.9',
@@ -249,7 +265,7 @@ describe('SetController (e2e)', () => {
       await pactum
         .spec()
         .put(`${BASE_URL}/${id}`)
-        .withBody(updatedExerciseDto)
+        .withBody(updatedSetDto)
         .expectStatus(200)
         .expectBody({ affected: 1, generatedMaps: [], raw: [] });
 
@@ -257,8 +273,8 @@ describe('SetController (e2e)', () => {
         .spec()
         .get(`${BASE_URL}/${id}`)
         .expectStatus(200)
-        .expectBodyContains(updatedExerciseDto.cycles)
-        .expectBodyContains(updatedExerciseDto.score);
+        .expectBodyContains(updatedSetDto.cycles)
+        .expectBodyContains(updatedSetDto.score);
     });
 
     it('should not affect any set with the given id', async () => {
@@ -294,6 +310,79 @@ describe('SetController (e2e)', () => {
           message: ['cycles must be an integer number'],
           error: 'Bad Request',
         });
+    });
+
+    it('should update the exercise inside the set', async () => {
+      const id = await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(setDto1)
+        .expectStatus(201)
+        .returns('id');
+
+      const setExerciseBeforeUpdate = (await pactum
+        .spec()
+        .get(`${BASE_URL}/${id}`)
+        .expectStatus(200)
+        .returns('exercise')) as unknown;
+
+      const exerciseBeforeUpdate = setExerciseBeforeUpdate as Set;
+
+      expect(exerciseBeforeUpdate).toMatchObject({
+        muscles: ['Chest', 'Triceps'],
+        name: 'Push up',
+        score: 7,
+      });
+
+      const updatedSetDto = {
+        ...setDto1,
+        exerciseDto: {
+          name: 'Dips',
+          muscles: ['Chest', 'Triceps'],
+          score: '8',
+        },
+      };
+
+      await pactum
+        .spec()
+        .put(`${BASE_URL}/${id}`)
+        .withBody(updatedSetDto)
+        .expectStatus(200)
+        .expectBody({ affected: 1, generatedMaps: [], raw: [] });
+
+      const setExerciseAfterUpdate = (await pactum
+        .spec()
+        .get(`${BASE_URL}/${id}`)
+        .expectStatus(200)
+        .returns('exercise')) as unknown;
+
+      const exerciseAfterUpdate = setExerciseAfterUpdate as Set;
+
+      expect(exerciseAfterUpdate).toMatchObject({
+        name: 'Dips',
+        muscles: ['Chest', 'Triceps'],
+        score: 8,
+      });
+    });
+
+    it('should not update the exercise because it is invalid', async () => {
+      const id = await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(setDto1)
+        .expectStatus(201)
+        .returns('id');
+
+      const updatedSetDto = {
+        ...setDto1,
+        exerciseDto: {},
+      };
+
+      await pactum
+        .spec()
+        .put(`${BASE_URL}/${id}`)
+        .withBody(updatedSetDto)
+        .expectStatus(400);
     });
   });
 

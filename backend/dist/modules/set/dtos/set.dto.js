@@ -10,7 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SetDto = void 0;
+const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
+const dtos_1 = require("../../exercise/dtos/");
 class SetDto {
 }
 __decorate([
@@ -24,10 +26,12 @@ __decorate([
     __metadata("design:type", Number)
 ], SetDto.prototype, "reps", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsObject)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], SetDto.prototype, "exercise", void 0);
+    (0, class_validator_1.ValidateNested)(),
+    (0, class_transformer_1.Type)(() => dtos_1.ExerciseDto),
+    __metadata("design:type", dtos_1.ExerciseDto)
+], SetDto.prototype, "exerciseDto", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsNotEmpty)(),

@@ -1,10 +1,13 @@
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsDecimal,
   IsInt,
+  IsObject,
   IsOptional,
-  IsString,
+  ValidateNested,
 } from 'class-validator';
+import { ExerciseDto } from '../../exercise/dtos';
 
 export class UpdateSetDto {
   @IsInt()
@@ -15,9 +18,11 @@ export class UpdateSetDto {
   @IsOptional()
   reps: number;
 
-  @IsString()
+  @IsObject()
   @IsOptional()
-  exercise: string;
+  @ValidateNested()
+  @Type(() => ExerciseDto)
+  exerciseDto: ExerciseDto;
 
   @IsInt()
   @IsOptional()

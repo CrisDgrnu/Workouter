@@ -14,7 +14,10 @@ import { AutoCharImage } from './interfaces';
   styleUrls: ['./auto-char-image.component.scss'],
 })
 export class AutoCharImageComponent implements OnInit, OnChanges {
-  @Input() pseudoName = 'WK';
+  @Input() pseudoName: string = 'WK';
+  @Input() width: string = '3em';
+  @Input() height: string = '3em';
+  @Input() fontSize: string = '24px';
 
   autoCharImage: AutoCharImage = {
     pseudoName: 'WK',

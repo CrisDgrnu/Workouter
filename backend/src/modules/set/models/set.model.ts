@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Exercise } from '../../exercise/models/exercise.model';
 
 @Entity()
 export class Set extends BaseEntity {
@@ -20,12 +28,9 @@ export class Set extends BaseEntity {
   })
   reps: number;
 
-  //TODO: Relation with exercise
-  @Column({
-    comment: 'The exercise name',
-    type: 'varchar',
-  })
-  exercise: string;
+  @ManyToOne(() => Exercise, { cascade: true, eager: true })
+  @JoinColumn({ referencedColumnName: 'name' })
+  exercise: Exercise;
 
   @Column({
     comment: 'The break of the cycle in seconds',

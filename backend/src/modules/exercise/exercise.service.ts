@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -7,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   FilterOperator,
   paginate,
+  PaginateConfig,
   Paginated,
   PaginateQuery,
 } from 'nestjs-paginate';
@@ -18,6 +20,15 @@ import { Exercise } from './models';
 
 @Injectable()
 export class ExerciseService {
+  pageConfig: PaginateConfig<Exercise> = {
+    sortableColumns: ['id', 'muscles', 'score'],
+    searchableColumns: ['id', 'muscles', 'score'],
+    defaultSortBy: [['id', 'DESC']],
+    filterableColumns: {
+      score: [FilterOperator.GTE, FilterOperator.LTE],
+    },
+  };
+
   constructor(
     @InjectRepository(Exercise)
     private readonly exerciseRepository: Repository<Exercise>,
@@ -35,14 +46,7 @@ export class ExerciseService {
   }
 
   findAll(query: PaginateQuery): Promise<Paginated<Exercise>> {
-    return paginate(query, this.exerciseRepository, {
-      sortableColumns: ['id', 'muscles', 'score'],
-      searchableColumns: ['id', 'muscles', 'score'],
-      defaultSortBy: [['id', 'DESC']],
-      filterableColumns: {
-        score: [FilterOperator.GTE, FilterOperator.LTE],
-      },
-    });
+    return paginate(query, this.exerciseRepository, this.pageConfig);
   }
 
   async findOne(id: number): Promise<Exercise> {
@@ -74,6 +78,16 @@ export class ExerciseService {
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    return this.exerciseRepository.delete(id);
+    try {
+      return await this.exerciseRepository.delete(id);
+    } catch (error) {
+      throw new BadRequestException(
+        new GenericHttpError(
+          400,
+          [`exercise with id ${id} is implied in some sets`],
+          'Bad Request',
+        ),
+      );
+    }
   }
 }

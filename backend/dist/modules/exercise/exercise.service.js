@@ -22,6 +22,14 @@ const models_1 = require("./models");
 let ExerciseService = class ExerciseService {
     constructor(exerciseRepository) {
         this.exerciseRepository = exerciseRepository;
+        this.pageConfig = {
+            sortableColumns: ['id', 'muscles', 'score'],
+            searchableColumns: ['id', 'muscles', 'score'],
+            defaultSortBy: [['id', 'DESC']],
+            filterableColumns: {
+                score: [nestjs_paginate_1.FilterOperator.GTE, nestjs_paginate_1.FilterOperator.LTE],
+            },
+        };
     }
     async create(exerciseDto) {
         const createdExercise = this.exerciseRepository.create(exerciseDto);
@@ -33,14 +41,7 @@ let ExerciseService = class ExerciseService {
         }
     }
     findAll(query) {
-        return (0, nestjs_paginate_1.paginate)(query, this.exerciseRepository, {
-            sortableColumns: ['id', 'muscles', 'score'],
-            searchableColumns: ['id', 'muscles', 'score'],
-            defaultSortBy: [['id', 'DESC']],
-            filterableColumns: {
-                score: [nestjs_paginate_1.FilterOperator.GTE, nestjs_paginate_1.FilterOperator.LTE],
-            },
-        });
+        return (0, nestjs_paginate_1.paginate)(query, this.exerciseRepository, this.pageConfig);
     }
     async findOne(id) {
         const exercise = await this.exerciseRepository.findOne(id);
@@ -57,7 +58,12 @@ let ExerciseService = class ExerciseService {
         }
     }
     async remove(id) {
-        return this.exerciseRepository.delete(id);
+        try {
+            return await this.exerciseRepository.delete(id);
+        }
+        catch (error) {
+            throw new common_1.BadRequestException(new genericHttp_error_1.GenericHttpError(400, [`exercise with id ${id} is implied in some sets`], 'Bad Request'));
+        }
     }
 };
 ExerciseService = __decorate([

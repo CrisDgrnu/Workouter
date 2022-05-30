@@ -37,7 +37,18 @@
       <div class="item-body">
         <p class="body-title">Exercises</p>
         <mat-list role="list" class="exercises-list">
-          <app-exercise-overview></app-exercise-overview>
+          <app-exercise-overview
+            [exerciseName]="'Push-up'"
+          ></app-exercise-overview>
+          <app-exercise-overview
+            [exerciseName]="'Pull-up'"
+          ></app-exercise-overview>
+          <app-exercise-overview
+            [exerciseName]="'Squat'"
+          ></app-exercise-overview>
+          <app-exercise-overview
+            [exerciseName]="'Knee Raises'"
+          ></app-exercise-overview>
         </mat-list>
       </div>
     </mat-expansion-panel>
