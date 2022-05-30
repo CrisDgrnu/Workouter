@@ -50,8 +50,11 @@ export class SetService {
   ) {}
 
   async create(setDto: SetDto): Promise<Set> {
-    const exercise = await this.getExercise(setDto.exerciseDto);
+    const { exerciseDto, exerciseId } = setDto;
+
+    const exercise = await this.getExercise(exerciseDto, exerciseId);
     const set = { exercise, ...this.setRepository.create(setDto) } as Set;
+
     return this.setRepository.save(set);
   }
 
@@ -89,7 +92,13 @@ export class SetService {
    * @param exerciseDto - The exercise with the data to be created
    * @returns - An exercise based on his name
    */
-  private async getExercise(exerciseDto: ExerciseDto | UpdateExerciseDto) {
+  private async getExercise(
+    exerciseDto: ExerciseDto | UpdateExerciseDto,
+    exerciseId?: number,
+  ) {
+    if (exerciseId)
+      return await this.exerciseRepository.findOne({ id: exerciseId });
+
     let exercise = await this.exerciseRepository.findOne({
       name: exerciseDto.name,
     });

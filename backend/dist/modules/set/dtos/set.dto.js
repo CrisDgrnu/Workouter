@@ -27,11 +27,16 @@ __decorate([
 ], SetDto.prototype, "reps", void 0);
 __decorate([
     (0, class_validator_1.IsObject)(),
-    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.ValidateNested)(),
     (0, class_transformer_1.Type)(() => dtos_1.ExerciseDto),
     __metadata("design:type", dtos_1.ExerciseDto)
 ], SetDto.prototype, "exerciseDto", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], SetDto.prototype, "exerciseId", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsNotEmpty)(),

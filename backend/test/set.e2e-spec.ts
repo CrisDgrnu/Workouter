@@ -7,6 +7,7 @@ import { Connection, getConnection } from 'typeorm';
 import { AppModule } from '../src/app.module';
 import { Exercise } from 'src/modules/exercise/models';
 import { setDto1, setDto2, setDto3 } from './data/set.data';
+import { exerciseDto1 } from './data/exercise.data';
 
 describe('SetController (e2e)', () => {
   let app: INestApplication;
@@ -101,6 +102,27 @@ describe('SetController (e2e)', () => {
         .post(BASE_URL)
         .withBody(invalidDto)
         .expectStatus(400);
+    });
+
+    it('should create a set with the id of the exercise instead of the object', async () => {
+      const exerciseId = (await pactum
+        .spec()
+        .post('/exercise')
+        .withBody(exerciseDto1)
+        .expectStatus(201)
+        .returns('id')) as unknown;
+
+      const id = exerciseId as number;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { exerciseDto, ...rest } = setDto1;
+      const setDtoWithId = { ...rest, exerciseId: id };
+
+      await pactum
+        .spec()
+        .post(BASE_URL)
+        .withBody(setDtoWithId)
+        .expectStatus(201);
     });
   });
 

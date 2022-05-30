@@ -50,7 +50,8 @@ let SetService = class SetService {
         };
     }
     async create(setDto) {
-        const exercise = await this.getExercise(setDto.exerciseDto);
+        const { exerciseDto, exerciseId } = setDto;
+        const exercise = await this.getExercise(exerciseDto, exerciseId);
         const set = Object.assign({ exercise }, this.setRepository.create(setDto));
         return this.setRepository.save(set);
     }
@@ -77,7 +78,9 @@ let SetService = class SetService {
     async remove(id) {
         return this.setRepository.delete(id);
     }
-    async getExercise(exerciseDto) {
+    async getExercise(exerciseDto, exerciseId) {
+        if (exerciseId)
+            return await this.exerciseRepository.findOne({ id: exerciseId });
         let exercise = await this.exerciseRepository.findOne({
             name: exerciseDto.name,
         });

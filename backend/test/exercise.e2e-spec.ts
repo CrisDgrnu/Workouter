@@ -297,6 +297,8 @@ describe('ExerciseController (e2e)', () => {
         .expectStatus(200)
         .expectBody({ affected: 0, raw: [] });
     });
+
+    // it('should not delete the exercise because is implied in a set', async () => {});
   });
 
   afterAll(async () => {

@@ -5,6 +5,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsObject,
+  IsOptional,
   ValidateNested,
 } from 'class-validator';
 import { ExerciseDto } from '../../exercise/dtos/';
@@ -19,10 +20,14 @@ export class SetDto {
   reps: number;
 
   @IsObject()
-  @IsNotEmpty()
+  @IsOptional()
   @ValidateNested()
   @Type(() => ExerciseDto)
   exerciseDto: ExerciseDto;
+
+  @IsInt()
+  @IsOptional()
+  exerciseId: number;
 
   @IsInt()
   @IsNotEmpty()
